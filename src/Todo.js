@@ -7,7 +7,7 @@ const Todo = ({todo, toggleComplete, deleteTodo}) => (
     <Text style={styles.todoText}>
       {todo.title}
     </Text>
-    <View style={styles.button}>
+    <View style={styles.buttons}>
       <TodoButton
         name='Done'
         complete={todo.complete}
