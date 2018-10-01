@@ -7,16 +7,17 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import Header from './src/Header';
 import Input from './src/Input';
 import Button from './src/Button';
+import TodoList from './src/TodoList';
 
 let todoIndex = 0;
 
 type Props = {};
 export default class App extends Component<Props> {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       inputValue: '',
@@ -31,8 +32,8 @@ export default class App extends Component<Props> {
   }
 
   submitTodo = () => {
-    console.log('This = ',this);
-    if(this.state.inputValue.match(/^\s*$/)){
+    console.log('This = ', this);
+    if (this.state.inputValue.match(/^\s*$/)) {
       return;
     }
     const todo = {
@@ -47,16 +48,43 @@ export default class App extends Component<Props> {
     });
   };
 
+  deleteTodo = (todoIndex) => {
+    const {todos} = this.state;
+    const updatedTodos = todos.filter(todo => todo.todoIndex !== todoIndex);
+    this.setState({todos: updatedTodos});
+  };
+
+  toggleComplete = todoIndex => {
+    const {todos} = this.state;
+    const updatedTodos = todos.forEach(todo => {
+      if (todo.todoIndex === todoIndex) {
+        todo.complete = !todo.complete;
+      }
+    });
+    this.setState({todos: updatedTodos});
+  };
+
   render() {
     const {inputValue, todos, type} = this.state;
     return (
       <View style={styles.container}>
-        <Header/>
-        <Input
-          inputValue={inputValue}
-          inputChange={text => this.inputChange(text)}
-        />
-        <Button submitTodo={this.submitTodo} />
+        <ScrollView
+          style={styles.content}
+          keyboardShouldPersistTaps='always'
+        >
+          <Header/>
+          <Input
+            inputValue={inputValue}
+            inputChange={text => this.inputChange(text)}
+          />
+          <TodoList
+            type={type}
+            todos={todos}
+            toggleComplete={this.toggleComplete}
+            deleteTodo={this.deleteTodo}
+          />
+          <Button submitTodo={this.submitTodo}/>
+        </ScrollView>
       </View>
     );
   }
@@ -65,21 +93,10 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5F5F5',
   },
-  welcome: {
-    fontSize: 30,
-    textAlign: 'center',
-    margin: 10,
+  content: {
+    flex: 1,
+    paddingTop: 60,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  font: {
-    fontSize: 20,
-  }
 });
