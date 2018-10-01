@@ -56,12 +56,12 @@ export default class App extends Component<Props> {
 
   toggleComplete = todoIndex => {
     const {todos} = this.state;
-    const updatedTodos = todos.forEach(todo => {
+    todos.forEach(todo => {
       if (todo.todoIndex === todoIndex) {
         todo.complete = !todo.complete;
       }
     });
-    this.setState({todos: updatedTodos});
+    this.setState({todos});
   };
 
   render() {
