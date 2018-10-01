@@ -13,11 +13,29 @@ import Input from './src/Input';
 
 type Props = {};
 export default class App extends Component<Props> {
+  constructor(){
+    super();
+    this.state = {
+      inputValue: '',
+      todos: [],
+      type: 'All',
+    }
+  }
+
+  inputChange(inputValue) {
+    console.log('Input Value: ', inputValue);
+    this.setState({inputValue});
+  }
+
   render() {
+    const {inputValue, todos, type} = this.state;
     return (
       <View style={styles.container}>
         <Header/>
-        <Input/>
+        <Input
+          inputValue={inputValue}
+          inputChange={text => this.inputChange(text)}
+        />
       </View>
     );
   }
