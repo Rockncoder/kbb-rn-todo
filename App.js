@@ -12,6 +12,7 @@ import Header from './src/Header';
 import Input from './src/Input';
 import Button from './src/Button';
 import TodoList from './src/TodoList';
+import TabBar from './src/TabBar';
 
 let todoIndex = 0;
 
@@ -64,6 +65,10 @@ export default class App extends Component<Props> {
     this.setState({todos});
   };
 
+  setType = type => {
+    this.setState({type});
+  };
+
   render() {
     const {inputValue, todos, type} = this.state;
     return (
@@ -85,6 +90,7 @@ export default class App extends Component<Props> {
           />
           <Button submitTodo={this.submitTodo}/>
         </ScrollView>
+        <TabBar type={type} setType={this.setType} />
       </View>
     );
   }
